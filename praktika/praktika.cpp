@@ -75,6 +75,13 @@ vector < vector < int >> findRailwayProjects(const vector<City>& cities) {
         }
     } while (prev_permutation(mask.begin(), mask.end())); // генерируем новую комбинацию городов 
 
+    // Сортировка проектов по стоимости
+    sort(projects.begin(), projects.end(), [&](const vector<int>& p1, const vector<int>& p2) {
+        return calculateCost(cities, p1) < calculateCost(cities, p2);
+        });
+
+
+    return projects;
 }
 
 
