@@ -44,7 +44,39 @@ int calculateCost(const vector<City>& cities, const vector<int>& selected) {
     // Вычисляем длину железной дороги 
     int length = maxX - minX;
     return length;
+
 }
+// Функция для поиска всех возможных проектов строительства железной дороги 
+vector < vector < int >> findRailwayProjects(const vector<City>& cities) {
+    vector < vector < int >> projects; // список проектов 
+
+    int k = cities.size(); // количество городов 
+    int halfK = k / 2;  // половина количества городов 
+
+    vector<int> selected(halfK, 0); // список выбранных городов 
+    vector<bool> mask(k, false); // булевский массив для генерации комбинаций 
+
+    // Инициализация маски для первых halfK городов 
+    for (int i = 0; i < halfK; ++i) {
+        mask[i] = true;// отмечаем первые половину городов как выбранные 
+    }
+
+    // Перебор всех комбинаций городов 
+    do {
+        vector<int> project; // текущий проект 
+        for (int i = 0; i < k; ++i) {
+            if (mask[i]) { // если город находится в выбранных 
+                project.push_back(i); // добавляем его в проект 
+            }
+        }
+        // Если количество городов слева и справа одинаково, добавляем проект в список 
+        if (countCities(cities, project) == 0) {
+            projects.push_back(project);
+        }
+    } while (prev_permutation(mask.begin(), mask.end())); // генерируем новую комбинацию городов 
+
+}
+
 
 
 int main() {
